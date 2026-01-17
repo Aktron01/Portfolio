@@ -4,372 +4,194 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abrar Mahir Antor | Multimedia Designer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- CSS VARIABLES & RESET --- */
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --accent: #00bcd4; /* Cyan accent for creative tech feel */
-            --padding: 2rem;
-            --max-width: 1200px;
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --accent: #00f2ff; /* High-energy cyan */
+            --text: #ffffff;
+            --text-dim: #a0a0a0;
+            --transition: 0.3s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
-
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
-        img { width: 100%; height: auto; display: block; }
 
-        /* --- TYPEOGRAPHY UTILS --- */
-        h1, h2, h3 { font-weight: 700; letter-spacing: -0.5px; }
-        .text-accent { color: var(--accent); }
-
-        /* --- NAVIGATION --- */
-        header {
-            background-color: rgba(18, 18, 18, 0.95);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid #333;
-        }
-
-        nav {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem var(--padding);
-        }
-
-        .logo {
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-links a:hover { color: var(--accent); }
-
-        /* --- HERO SECTION --- */
+        /* 1. LANDING / HERO */
         .hero {
-            min-height: 90vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
-            text-align: left;
-            padding: var(--padding);
-            padding-top: 100px; /* offset for fixed header */
-            max-width: var(--max-width);
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            line-height: 1.1;
-        }
-
-        .hero h2 {
-            font-size: 1.5rem;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            font-weight: 400;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin-bottom: 2rem;
-        }
-
-        .cta-button {
-            padding: 12px 30px;
-            background-color: var(--accent);
-            color: #000;
-            font-weight: bold;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
-
-        .cta-button:hover { background-color: #fff; }
-
-        /* --- SECTIONS GENERAL --- */
-        section {
-            padding: 80px var(--padding);
-            max-width: var(--max-width);
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 40px;
-            border-left: 5px solid var(--accent);
-            padding-left: 20px;
-        }
-
-        /* --- RESUME GRID (Exp & Edu) --- */
-        .resume-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-bottom: 60px;
-        }
-
-        .resume-item {
-            margin-bottom: 30px;
-            padding-left: 20px;
-            border-left: 2px solid #333;
-        }
-
-        .resume-date {
-            font-size: 0.9rem;
-            color: var(--accent);
-            margin-bottom: 5px;
-            display: block;
-            font-weight: bold;
-        }
-
-        .resume-role { font-size: 1.2rem; font-weight: bold; color: #fff; }
-        .resume-place { font-size: 1rem; color: var(--text-muted); font-style: italic; }
-        .resume-desc { margin-top: 10px; color: #bbb; font-size: 0.95rem; }
-
-        /* --- PORTFOLIO GRIDS --- */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover { transform: translateY(-5px); }
-        .card-content { padding: 20px; }
-        .card-title { font-size: 1.2rem; margin-bottom: 10px; }
-        .card-desc { color: var(--text-muted); font-size: 0.9rem; }
-
-        /* Video Container */
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            overflow: hidden;
-            background: #000;
-            border-radius: 8px;
-            margin-bottom: 40px;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%; border: 0;
-        }
-
-        /* Design Grid */
-        .design-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        .design-item {
-            height: 200px;
-            background-color: #252525;
-            border-radius: 6px;
-            display: flex;
             align-items: center;
-            justify-content: center;
-            color: #555;
-            font-weight: bold;
-            border: 1px solid #333;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(circle at center, #111 0%, #0a0a0a 100%);
         }
 
-        /* --- FOOTER --- */
-        footer {
-            background-color: #0a0a0a;
-            padding: 60px var(--padding);
-            margin-top: 80px;
-            border-top: 1px solid #222;
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1; margin-bottom: 0.5rem; }
+        .hero .subtitle { font-size: 1.2rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; }
+        .hero p { max-width: 600px; color: var(--text-dim); margin-bottom: 2rem; font-size: 1.1rem; }
+
+        .cta-group { display: flex; gap: 15px; }
+        .btn { padding: 12px 28px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; cursor: pointer; }
+        .btn-primary { background: var(--accent); color: #000; border: none; }
+        .btn-secondary { border: 1px solid var(--accent); color: var(--accent); background: transparent; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 242, 255, 0.2); }
+
+        /* 2. SHOWREEL */
+        .section-reel { padding: 4rem 2rem; max-width: 1000px; margin: 0 auto; }
+        .video-wrapper { 
+            position: relative; padding-bottom: 56.25%; height: 0; 
+            background: #000; border-radius: 12px; overflow: hidden; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        .footer-content {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 40px;
-        }
+        /* 3. PORTFOLIO GRID */
+        section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-size: 2rem; margin-bottom: 3rem; text-align: center; }
+        .section-title span { color: var(--accent); }
 
-        .contact-info h3 { margin-bottom: 20px; color: #fff; }
-        .contact-info p { margin-bottom: 10px; color: var(--text-muted); }
-        .contact-info a { color: var(--accent); }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .project-card { background: var(--surface); border-radius: 8px; overflow: hidden; border: 1px solid #222; }
+        .project-thumb { width: 100%; height: 200px; background: #222; display: flex; align-items: center; justify-content: center; color: #444; }
+        .project-info { padding: 1.5rem; }
+        .project-info h4 { font-size: 1.25rem; margin-bottom: 5px; }
+        .project-tag { font-size: 0.75rem; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; display: block; }
+        .project-info p { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 15px; }
+        .tools { font-size: 0.8rem; color: #777; font-style: italic; }
 
-        /* --- MOBILE --- */
+        /* 4. EXPERIENCE & EDUCATION (CV STYLE) */
+        .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+        .cv-item { margin-bottom: 30px; position: relative; padding-left: 20px; border-left: 1px solid var(--accent); }
+        .cv-item h4 { font-size: 1.1rem; }
+        .cv-meta { font-size: 0.85rem; color: var(--accent); margin-bottom: 8px; }
+        .cv-item ul { margin-top: 10px; font-size: 0.9rem; color: var(--text-dim); }
+        .cv-item li { margin-bottom: 5px; }
+
+        /* 5. SKILLS & AWARDS */
+        .skills-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-tag { background: #1a1a1a; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; border: 1px solid #333; }
+        .award-item { background: #1a1a1a; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid gold; }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 4rem 2rem; border-top: 1px solid #222; }
+        .contact-links { margin: 2rem 0; font-size: 1.2rem; display: flex; justify-content: center; gap: 30px; }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
-            .footer-content { flex-direction: column; }
+            .cv-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <div class="logo">ABRAR<span class="text-accent">.</span>MAHIR</div>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <p class="text-accent">Hello, I am</p>
+    <div class="hero">
+        <p class="subtitle">Multimedia Designer</p>
         <h1>Abrar Mahir Antor</h1>
-        <h2>Multimedia Designer</h2>
-        <p>
-            Highly motivated and results-oriented professional with 3+ years of experience in visual storytelling, motion graphics, and brand communication. Adept at leveraging AI-powered tools like ChatGPT, Gemini, and DeepSeek to optimize creative workflows.
-        </p>
-        <div style="margin-top: 20px;">
-            <a href="#portfolio" class="cta-button">View My Work</a>
-            <a href="mailto:abrarmahirantor@gmail.com" style="margin-left: 20px; color: #fff; border-bottom: 1px solid var(--accent);">Contact Me</a>
+        <p>Creating high-impact visuals with After Effects & Premiere Pro. Specializing in visual storytelling and motion graphics.</p>
+        <div class="cta-group">
+            <a href="#portfolio" class="btn btn-primary">View Portfolio</a>
+            <a href="abrar_cv.pdf" class="btn btn-secondary">Download CV</a>
         </div>
-    </section>
+    </div>
 
-    <section id="experience" style="background-color: #181818;">
-        <h2 class="section-title">Experience & Education</h2>
-        
-        <div class="resume-grid">
-            <div>
-                <h3 style="margin-bottom: 30px; color: #fff;">Professional History</h3>
-                
-                <div class="resume-item">
-                    <span class="resume-date">2023 - Present</span>
-                    <div class="resume-role">Senior Visualizer</div>
-                    <div class="resume-place">Interactive Cares</div>
-                    <p class="resume-desc">Leading visual strategies and multimedia content production.</p>
-                </div>
-
-                <div class="resume-item">
-                    <span class="resume-date">2019</span>
-                    <div class="resume-role">Graphic Designer</div>
-                    <div class="resume-place">Admission.ac</div>
-                </div>
-
-                <div class="resume-item">
-                    <span class="resume-date">2017 - 2018</span>
-                    <div class="resume-role">Animator</div>
-                    <div class="resume-place">Studio PADMA</div>
-                </div>
-
-                <div class="resume-item">
-                    <span class="resume-date">Ongoing</span>
-                    <div class="resume-role">Freelance Designer</div>
-                    <div class="resume-place">Various Clients</div>
-                </div>
-            </div>
-
-            <div>
-                <h3 style="margin-bottom: 30px; color: #fff;">Education</h3>
-                
-                <div class="resume-item">
-                    <span class="resume-date">2017 - 2023</span>
-                    <div class="resume-role">B.Sc. (Hons) in Multimedia & Creative Technology</div>
-                    <div class="resume-place">Daffodil International University</div>
-                    <p class="resume-desc">Relevant coursework: Creative Visualization, Motion Graphics, 3D Design, Multimedia Production.</p>
-                </div>
-            </div>
+    <div class="section-reel">
+        <h2 class="section-title">2026 <span>Showreel</span></h2>
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
         </div>
-    </section>
+    </div>
 
     <section id="portfolio">
-        <h2 class="section-title">Portfolio Highlights</h2>
+        <h2 class="section-title">Selected <span>Works</span></h2>
+        <div class="portfolio-grid">
+            <div class="project-card">
+                <div class="project-thumb">Video/Image Here</div>
+                <div class="project-info">
+                    <span class="project-tag">Motion Graphics</span>
+                    <h4>Brand Promo 2026</h4>
+                    <p>High-energy social media promo created for digital campaigns.</p>
+                    <div class="tools">After Effects, Illustrator</div>
+                </div>
+            </div>
+            </div>
+    </section>
 
-        <h3 style="margin-bottom: 20px; color: #ddd;">Motion Graphics Reel</h3>
-        <div class="video-container">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" title="Motion Reel" allowfullscreen></iframe>
+    <section id="cv" style="background: var(--surface);">
+        <div class="cv-grid">
+            <div>
+                <h3 class="section-title" style="text-align: left;">Experience</h3>
+                <div class="cv-item">
+                    <div class="cv-meta">2023 – Present</div>
+                    <h4>Senior Visualizer</h4>
+                    <p style="color:var(--accent)">Interactive Cares</p>
+                    <ul>
+                        <li>Motion graphics for brand & social content</li>
+                        <li>Video editing using Premiere Pro & AE</li>
+                        <li>Collaboration with creative team</li>
+                    </ul>
+                </div>
+                <div class="cv-item">
+                    <div class="cv-meta">2019</div>
+                    <h4>Graphic Designer</h4>
+                    <p style="color:var(--accent)">Admission.ac</p>
+                </div>
+                <div class="cv-item">
+                    <div class="cv-meta">2017 – 2018</div>
+                    <h4>Animator</h4>
+                    <p style="color:var(--accent)">Studio PADMA</p>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="section-title" style="text-align: left;">Education</h3>
+                <div class="cv-item">
+                    <h4>B.Sc. (Hons.) in Multimedia & Creative Technology</h4>
+                    <p>Daffodil International University</p>
+                </div>
+
+                <h3 class="section-title" style="text-align: left; margin-top: 2rem;">Awards</h3>
+                <div class="award-item">
+                    <strong>Employee of the Month</strong> — Interactive Cares
+                </div>
+                <div class="award-item">
+                    <strong>Best Intern</strong> — Studio PADMA
+                </div>
+            </div>
         </div>
+    </section>
 
-        <h3 style="margin-bottom: 20px; margin-top: 50px; color: #ddd;">After Effects Projects</h3>
-        <div class="grid-container">
-            <div class="card">
-                <div style="height: 180px; background: #333;"></div>
-                <div class="card-content">
-                    <h4 class="card-title">Project One</h4>
-                    <p class="card-desc">Advanced compositing and visual effects.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div style="height: 180px; background: #333;"></div>
-                <div class="card-content">
-                    <h4 class="card-title">Project Two</h4>
-                    <p class="card-desc">Kinetic typography and brand motion.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div style="height: 180px; background: #333;"></div>
-                <div class="card-content">
-                    <h4 class="card-title">Project Three</h4>
-                    <p class="card-desc">3D integration and motion tracking.</p>
-                </div>
-            </div>
-        </div>
-
-        <h3 style="margin-bottom: 20px; margin-top: 50px; color: #ddd;">Graphic / Visual Design</h3>
-        <div class="design-grid">
-            <div class="design-item">Brand Identity</div>
-            <div class="design-item">Social Media</div>
-            <div class="design-item">Print Design</div>
-            <div class="design-item">UI Elements</div>
+    <section>
+        <h2 class="section-title">Technical <span>Expertise</span></h2>
+        <div class="skills-wrap">
+            <span class="skill-tag">Adobe After Effects</span>
+            <span class="skill-tag">Adobe Premiere Pro</span>
+            <span class="skill-tag">Motion Graphics</span>
+            <span class="skill-tag">Video Editing</span>
+            <span class="skill-tag">Visual Storytelling</span>
+            <span class="skill-tag">Sound Sync</span>
+            <span class="skill-tag">Color Grading</span>
+            <span class="skill-tag">Typography Animation</span>
+            <span class="skill-tag">Graphic Design</span>
+            <span class="skill-tag">Branding Visuals</span>
+            <span class="skill-tag">AI-assisted Workflow</span>
         </div>
     </section>
 
     <footer id="contact">
-        <div class="footer-content">
-            <div class="contact-info">
-                <h3>Abrar Mahir Antor</h3>
-                <p>Multimedia Designer</p>
-                <p>Recognized for innovation, consistency, and impact.</p>
-            </div>
-            <div class="contact-info">
-                <h3>Get in Touch</h3>
-                <p>Email: <a href="mailto:abrarmahirantor@gmail.com">abrarmahirantor@gmail.com</a></p>
-                <p>Phone: <a href="tel:+8801986609698">+880 1986 609 698</a></p>
-            </div>
+        <h2>Let's create something <span>impactful</span>.</h2>
+        <div class="contact-links">
+            <a href="mailto:abrarmahirantor@gmail.com">Email</a>
+            <a href="tel:+8801986609698">Phone</a>
+            <a href="https://wa.me/8801986609698">WhatsApp</a>
         </div>
-        <div style="text-align: center; margin-top: 50px; color: #555; font-size: 0.8rem;">
-            &copy; 2026 Abrar Mahir Antor. Hosted on <a href="https://ezken.xyz" style="color:#555; text-decoration: underline;">Netlify</a>.
-        </div>
+        <a href="abrar_cv.pdf" class="btn btn-primary">Download One-Page CV</a>
+        <p style="margin-top: 3rem; font-size: 0.8rem; color: #444;">&copy; 2026 Abrar Mahir Antor | Built for Netlify</p>
     </footer>
 
 </body>
