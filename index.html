@@ -46,6 +46,23 @@
         }
         .btn:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2); }
 
+        /* --- ANIMATION CLASSES (NEW) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px); /* Start 50px lower */
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); /* Smooth easing */
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger delays for grids */
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+
         /* --- 1. HERO SECTION --- */
         .hero {
             position: relative;
@@ -59,7 +76,6 @@
             padding-top: 20px;
         }
 
-        /* Video Background */
         .hero-video {
             position: absolute;
             top: 0;
@@ -70,25 +86,29 @@
             z-index: -2;
         }
 
-        /* Dark Overlay */
         .hero-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7); /* 70% opacity black so text/profile pops */
+            background: rgba(0, 0, 0, 0.7);
             z-index: -1;
         }
 
-        /* Hero Content */
         .hero-content {
             position: relative;
             z-index: 1;
             padding: 0 20px;
+            /* Hero animation happens on load, handled by separate keyframes or JS */
+            animation: fadeUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Profile Picture */
         .profile-img {
             width: 160px;
             height: 160px;
@@ -103,7 +123,7 @@
         .hero-content h1 { font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1; margin-bottom: 1.5rem; font-weight: 900; letter-spacing: -2px; }
         .hero-content p { color: #ddd; font-size: 1.25rem; margin-bottom: 2.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); max-width: 700px; margin-left: auto; margin-right: auto; }
 
-        /* --- SCROLL INDICATOR ANIMATION --- */
+        /* --- SCROLL INDICATOR --- */
         .scroll-indicator {
             position: absolute;
             bottom: 30px;
@@ -116,7 +136,11 @@
             gap: 10px;
             opacity: 0.8;
             cursor: pointer;
+            animation: fadeIn 2s ease-out 1s forwards; /* Delayed fade in */
+            opacity: 0; 
         }
+        @keyframes fadeIn { to { opacity: 0.8; } }
+        
         .scroll-indicator:hover { opacity: 1; }
 
         .mouse {
@@ -160,7 +184,7 @@
             100% { opacity: 0; transform: rotate(45deg) translate(5px, 5px); }
         }
 
-        /* --- 2. MAIN FEATURE (AFTER EFFECTS) --- */
+        /* --- 2. MAIN FEATURE --- */
         .main-video-wrapper {
             width: 100%;
             aspect-ratio: 16/9;
@@ -200,7 +224,6 @@
         /* --- 4. GRAPHICS SECTION --- */
         .graphics-container { display: flex; flex-direction: column; gap: 60px; }
         
-        /* 1:1 Square Grid */
         .grid-1x1 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .square-item {
             aspect-ratio: 1/1;
@@ -218,7 +241,6 @@
         }
         .square-item:hover { border-color: var(--accent); filter: brightness(1.2); }
 
-        /* 16:9 Thumbnail Grid */
         .grid-thumbnails { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .thumb-item {
             aspect-ratio: 16/9;
@@ -273,12 +295,10 @@
         <video autoplay muted loop playsinline class="hero-video">
             <source src="header.mp4" type="video/mp4">
         </video>
-        
         <div class="hero-overlay"></div>
         
         <div class="hero-content container">
             <img src="profile.jpg" alt="Abrar Mahir Antor" class="profile-img">
-
             <span style="color:var(--accent); letter-spacing:3px; text-transform:uppercase; font-size:0.85rem; font-weight:bold;">Multimedia Designer</span>
             <h1>Abrar Mahir Antor</h1>
             <p>High-impact visuals. Strategic motion graphics. Future-ready brand design.</p>
@@ -295,14 +315,14 @@
 
     <section id="feature-section">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <span class="section-subtitle">Featured Project</span>
                 <h2 class="section-title">Motion Graphics Spotlight</h2>
                 <p style="color:var(--text-dim); margin-top:15px; max-width:600px; line-height: 1.8;">
                     Advanced compositing, kinetic typography, and visual effects crafted in Adobe After Effects.
                 </p>
             </div>
-            <div class="main-video-wrapper">
+            <div class="main-video-wrapper reveal delay-100">
                 <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0" allowfullscreen></iframe>
             </div>
         </div>
@@ -310,12 +330,12 @@
 
     <section>
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <span class="section-subtitle">Short Form Content</span>
                 <h2 class="section-title">Selected Reels</h2>
             </div>
             <div class="reels-grid">
-                <div class="reel-card">
+                <div class="reel-card reveal">
                     <div class="reel-video">
                         <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
                     </div>
@@ -324,7 +344,7 @@
                         <p class="reel-desc">High-pace editing for social campaign.</p>
                     </div>
                 </div>
-                <div class="reel-card">
+                <div class="reel-card reveal delay-100">
                     <div class="reel-video">
                         <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
                     </div>
@@ -333,7 +353,7 @@
                         <p class="reel-desc">Kinetic typography and transitions.</p>
                     </div>
                 </div>
-                <div class="reel-card">
+                <div class="reel-card reveal delay-200">
                     <div class="reel-video">
                         <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
                     </div>
@@ -348,27 +368,27 @@
 
     <section>
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <span class="section-subtitle">Visual Design</span>
                 <h2 class="section-title">Graphic Showcase</h2>
             </div>
             
             <div class="graphics-container">
                 <div>
-                    <div class="grid-label">Social Media & Brand Identity (1:1)</div>
+                    <div class="grid-label reveal">Social Media & Brand Identity (1:1)</div>
                     <div class="grid-1x1">
-                        <div class="square-item">Square Design 01</div>
-                        <div class="square-item">Square Design 02</div>
-                        <div class="square-item">Square Design 03</div>
+                        <div class="square-item reveal">Square Design 01</div>
+                        <div class="square-item reveal delay-100">Square Design 02</div>
+                        <div class="square-item reveal delay-200">Square Design 03</div>
                     </div>
                 </div>
 
                 <div>
-                    <div class="grid-label">Thumbnails & Web Banners (16:9)</div>
+                    <div class="grid-label reveal" style="margin-top: 40px;">Thumbnails & Web Banners (16:9)</div>
                     <div class="grid-thumbnails">
-                        <div class="thumb-item">Thumbnail 01</div>
-                        <div class="thumb-item">Thumbnail 02</div>
-                        <div class="thumb-item">Thumbnail 03</div>
+                        <div class="thumb-item reveal">Thumbnail 01</div>
+                        <div class="thumb-item reveal delay-100">Thumbnail 02</div>
+                        <div class="thumb-item reveal delay-200">Thumbnail 03</div>
                     </div>
                 </div>
             </div>
@@ -378,7 +398,7 @@
     <section style="background: #0a0a0a;">
         <div class="container">
             <div class="cv-grid">
-                <div>
+                <div class="reveal">
                     <h3 class="section-title" style="margin-bottom:2.5rem; font-size:1.5rem;">Experience</h3>
                     
                     <div class="cv-item">
@@ -400,7 +420,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div class="reveal delay-100">
                     <h3 class="section-title" style="margin-bottom:2.5rem; font-size:1.5rem;">Education</h3>
                     <div class="cv-item">
                         <span class="cv-date">2017 - 2023</span>
@@ -420,7 +440,7 @@
     </section>
 
     <footer id="contact">
-        <div class="container footer-cta">
+        <div class="container footer-cta reveal">
             <h2>Let's create something <span>impactful</span>.</h2>
             <div class="contact-links">
                 <a href="mailto:abrarmahirantor@gmail.com">abrarmahirantor@gmail.com</a>
@@ -430,6 +450,28 @@
             <p style="margin-top:50px; font-size:0.8rem; color:#444;">&copy; 2026 Abrar Mahir Antor</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.15 // Trigger when 15% of element is visible
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Stop observing once animated so it doesn't run again
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Select all elements with the .reveal class
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
 
 </body>
 </html>
