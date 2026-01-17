@@ -18,20 +18,35 @@
 
         /* --- GLOBAL RESET --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.6; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        ul { list-style: none; }
         
         /* --- UTILITIES --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        section { padding: 5rem 0; border-bottom: 1px solid #111; }
+        section { padding: 6rem 0; border-bottom: 1px solid #111; }
         .section-header { margin-bottom: 3rem; text-align: left; }
         .section-title { font-size: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .section-subtitle { color: var(--accent); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
-        .btn { padding: 12px 30px; background: var(--accent); color: #000; font-weight: 700; border-radius: 4px; display: inline-block; cursor: pointer; }
-        .btn:hover { background: #fff; }
+        
+        /* Button Style */
+        .btn { 
+            padding: 14px 35px; 
+            background: var(--accent); 
+            color: #000; 
+            font-weight: 700; 
+            border-radius: 4px; 
+            display: inline-block; 
+            cursor: pointer; 
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        .btn:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2); }
 
-        /* --- 1. HERO WITH VIDEO BACKGROUND --- */
+        /* --- 1. HERO SECTION WITH VIDEO & SCROLL --- */
         .hero {
             position: relative;
             height: 100vh;
@@ -43,6 +58,7 @@
             overflow: hidden;
         }
 
+        /* Video Background */
         .hero-video {
             position: absolute;
             top: 0;
@@ -53,26 +69,84 @@
             z-index: -2;
         }
 
+        /* Dark Overlay */
         .hero-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6); /* Darkens video so text pops */
+            background: rgba(0, 0, 0, 0.65); /* 65% opacity black */
             z-index: -1;
         }
 
+        /* Hero Content */
         .hero-content {
             position: relative;
             z-index: 1;
+            padding: 0 20px;
+        }
+        .hero-content h1 { font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1; margin-bottom: 1.5rem; font-weight: 900; letter-spacing: -2px; }
+        .hero-content p { color: #ddd; font-size: 1.25rem; margin-bottom: 2.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); max-width: 700px; margin-left: auto; margin-right: auto; }
+
+        /* --- SCROLL INDICATOR ANIMATION --- */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+        .scroll-indicator:hover { opacity: 1; }
+
+        .mouse {
+            width: 26px;
+            height: 42px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            position: relative;
         }
 
-        .hero-content h1 { font-size: clamp(3rem, 6vw, 5rem); line-height: 1; margin-bottom: 1rem; font-weight: 900; }
-        .hero-content p { color: #ddd; font-size: 1.2rem; margin-bottom: 2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .wheel {
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scroll 2s infinite;
+        }
 
-        /* --- 2. MAIN AFTER EFFECTS FEATURE --- */
-        .feature-section { padding-top: 5rem; }
+        .arrow-down {
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid rgba(255, 255, 255, 0.6);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+            transform: rotate(45deg);
+            animation: fadeScroll 2s infinite;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes scroll {
+            0% { top: 8px; opacity: 1; }
+            100% { top: 24px; opacity: 0; }
+        }
+
+        @keyframes fadeScroll {
+            0% { opacity: 0; transform: rotate(45deg) translate(-5px, -5px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: rotate(45deg) translate(5px, 5px); }
+        }
+
+        /* --- 2. MAIN FEATURE (AFTER EFFECTS) --- */
         .main-video-wrapper {
             width: 100%;
             aspect-ratio: 16/9;
@@ -80,7 +154,7 @@
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid #333;
-            box-shadow: 0 0 50px rgba(0, 242, 255, 0.1);
+            box-shadow: 0 0 60px rgba(0, 242, 255, 0.05);
             position: relative;
         }
         .main-video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
@@ -96,9 +170,9 @@
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--border);
-            transition: transform 0.3s;
+            transition: transform 0.3s, border-color 0.3s;
         }
-        .reel-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .reel-card:hover { transform: translateY(-7px); border-color: var(--accent); }
         .reel-video {
             aspect-ratio: 9/16;
             background: #000;
@@ -106,14 +180,14 @@
         }
         .reel-video iframe { position: absolute; top:0; left:0; width:100%; height:100%; }
         .reel-info { padding: 1.5rem; }
-        .reel-title { font-weight: 700; margin-bottom: 5px; }
+        .reel-title { font-weight: 700; margin-bottom: 5px; color: #fff; }
         .reel-desc { font-size: 0.85rem; color: var(--text-dim); }
 
         /* --- 4. GRAPHICS SECTION --- */
         .graphics-container { display: flex; flex-direction: column; gap: 60px; }
         
         /* 1:1 Square Grid */
-        .grid-1x1 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .grid-1x1 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .square-item {
             aspect-ratio: 1/1;
             background: #222;
@@ -126,11 +200,12 @@
             border: 1px solid var(--border);
             transition: 0.3s;
             overflow: hidden;
+            position: relative;
         }
         .square-item:hover { border-color: var(--accent); filter: brightness(1.2); }
 
         /* 16:9 Thumbnail Grid */
-        .grid-thumbnails { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .grid-thumbnails { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .thumb-item {
             aspect-ratio: 16/9;
             background: #222;
@@ -146,23 +221,34 @@
         }
         .thumb-item:hover { border-color: var(--accent); transform: scale(1.02); }
 
-        .grid-label { color: var(--text-dim); margin-bottom: 15px; font-size: 0.9rem; border-left: 2px solid var(--accent); padding-left: 10px; }
+        .grid-label { color: var(--text-dim); margin-bottom: 20px; font-size: 0.95rem; border-left: 3px solid var(--accent); padding-left: 15px; font-weight: bold; }
 
         /* --- 5. CV / EXPERIENCE --- */
-        .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
-        .cv-item { margin-bottom: 25px; padding-left: 15px; border-left: 1px solid #333; }
-        .cv-role { font-weight: 700; color: #fff; }
-        .cv-company { color: var(--accent); font-size: 0.9rem; }
-        .cv-date { font-size: 0.8rem; color: #666; margin-bottom: 5px; display: block; }
+        .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+        .cv-item { margin-bottom: 30px; padding-left: 20px; border-left: 1px solid #333; position: relative; }
+        .cv-item::before { content: ''; position: absolute; left: -3px; top: 0; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; }
+        
+        .cv-role { font-weight: 700; color: #fff; font-size: 1.1rem; }
+        .cv-company { color: var(--accent); font-size: 0.95rem; margin-bottom: 5px; }
+        .cv-date { font-size: 0.8rem; color: #666; display: block; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
         
         /* --- FOOTER --- */
-        footer { text-align: center; padding: 4rem 0; border-top: 1px solid var(--border); margin-top: 4rem; }
-        .contact-links a { color: var(--accent); margin: 0 10px; font-weight: bold; }
+        footer { text-align: center; padding: 5rem 0; border-top: 1px solid var(--border); background: #080808; }
+        .footer-cta h2 { font-size: 2.5rem; margin-bottom: 2rem; }
+        .footer-cta span { color: var(--accent); }
+        .contact-links { margin-top: 30px; display: flex; justify-content: center; gap: 30px; font-size: 1.1rem; }
+        .contact-links a { font-weight: bold; position: relative; }
+        .contact-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background: var(--accent); transition: 0.3s; }
+        .contact-links a:hover { color: var(--accent); }
+        .contact-links a:hover::after { width: 100%; }
 
         /* --- MOBILE --- */
         @media (max-width: 768px) {
             .grid-1x1, .grid-thumbnails, .reels-grid, .cv-grid { grid-template-columns: 1fr; }
             .hero-content h1 { font-size: 3rem; }
+            .section-header { text-align: center; }
+            .section-subtitle { margin-bottom: 10px; }
+            .contact-links { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
@@ -171,29 +257,36 @@
     <section class="hero">
         <video autoplay muted loop playsinline class="hero-video">
             <source src="header.mp4" type="video/mp4">
-            Your browser does not support the video tag.
         </video>
+        
         <div class="hero-overlay"></div>
         
         <div class="hero-content container">
-            <span style="color:var(--accent); letter-spacing:2px; text-transform:uppercase; font-size:0.9rem;">Multimedia Designer</span>
+            <span style="color:var(--accent); letter-spacing:3px; text-transform:uppercase; font-size:0.85rem; font-weight:bold;">Multimedia Designer</span>
             <h1>Abrar Mahir Antor</h1>
-            <p>Motion Graphics • Visual Storytelling • Brand Design</p>
-            <a href="#contact" class="btn">Download CV</a>
+            <p>High-impact visuals. Strategic motion graphics. Future-ready brand design.</p>
+            <a href="abrar_cv.pdf" class="btn">Download CV</a>
         </div>
+
+        <a href="#feature-section" class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <div class="arrow-down"></div>
+        </a>
     </section>
 
-    <section class="feature-section">
+    <section id="feature-section">
         <div class="container">
             <div class="section-header">
                 <span class="section-subtitle">Featured Project</span>
                 <h2 class="section-title">Motion Graphics Spotlight</h2>
-                <p style="color:var(--text-dim); margin-top:10px; max-width:600px;">
-                    A deep dive into complex compositing, typography animation, and visual effects using After Effects.
+                <p style="color:var(--text-dim); margin-top:15px; max-width:600px; line-height: 1.8;">
+                    Advanced compositing, kinetic typography, and visual effects crafted in Adobe After Effects.
                 </p>
             </div>
             <div class="main-video-wrapper">
-                <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0" allowfullscreen></iframe>
             </div>
         </div>
     </section>
@@ -201,7 +294,7 @@
     <section>
         <div class="container">
             <div class="section-header">
-                <span class="section-subtitle">Short Form</span>
+                <span class="section-subtitle">Short Form Content</span>
                 <h2 class="section-title">Selected Reels</h2>
             </div>
             <div class="reels-grid">
@@ -269,17 +362,20 @@
         <div class="container">
             <div class="cv-grid">
                 <div>
-                    <h3 class="section-title" style="margin-bottom:2rem; font-size:1.5rem;">Experience</h3>
+                    <h3 class="section-title" style="margin-bottom:2.5rem; font-size:1.5rem;">Experience</h3>
+                    
                     <div class="cv-item">
                         <span class="cv-date">2023 - Present</span>
                         <div class="cv-role">Senior Visualizer</div>
                         <div class="cv-company">Interactive Cares</div>
                     </div>
+
                     <div class="cv-item">
                         <span class="cv-date">2019</span>
                         <div class="cv-role">Graphic Designer</div>
                         <div class="cv-company">Admission.ac</div>
                     </div>
+
                     <div class="cv-item">
                         <span class="cv-date">2017 - 2018</span>
                         <div class="cv-role">Animator</div>
@@ -288,13 +384,14 @@
                 </div>
 
                 <div>
-                    <h3 class="section-title" style="margin-bottom:2rem; font-size:1.5rem;">Education</h3>
+                    <h3 class="section-title" style="margin-bottom:2.5rem; font-size:1.5rem;">Education</h3>
                     <div class="cv-item">
                         <span class="cv-date">2017 - 2023</span>
                         <div class="cv-role">B.Sc. (Hons) Multimedia</div>
                         <div class="cv-company">Daffodil International University</div>
                     </div>
-                    <div style="margin-top: 3rem;">
+
+                    <div style="margin-top: 4rem;">
                         <h3 class="section-title" style="margin-bottom:1.5rem; font-size:1.5rem;">Tools</h3>
                         <p style="color: var(--text-dim); line-height: 1.8;">
                             <span style="color:#fff;">Adobe After Effects, Premiere Pro</span>, Illustrator, Photoshop, AI Workflow (ChatGPT, Gemini), Visual Storytelling.
@@ -306,14 +403,14 @@
     </section>
 
     <footer id="contact">
-        <div class="container">
-            <h2>Ready to work together?</h2>
-            <div class="contact-links" style="margin-top:20px;">
+        <div class="container footer-cta">
+            <h2>Let's create something <span>impactful</span>.</h2>
+            <div class="contact-links">
                 <a href="mailto:abrarmahirantor@gmail.com">abrarmahirantor@gmail.com</a>
-                <span style="color:#333;">|</span>
                 <a href="tel:+8801986609698">+880 1986 609 698</a>
+                <a href="https://wa.me/8801986609698">WhatsApp</a>
             </div>
-            <p style="margin-top:30px; font-size:0.8rem; color:#444;">&copy; 2026 Abrar Mahir Antor</p>
+            <p style="margin-top:50px; font-size:0.8rem; color:#444;">&copy; 2026 Abrar Mahir Antor</p>
         </div>
     </footer>
 
