@@ -28,23 +28,51 @@
         .section-header { margin-bottom: 3rem; text-align: left; }
         .section-title { font-size: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .section-subtitle { color: var(--accent); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+        .btn { padding: 12px 30px; background: var(--accent); color: #000; font-weight: 700; border-radius: 4px; display: inline-block; cursor: pointer; }
+        .btn:hover { background: #fff; }
 
-        /* --- 1. HERO --- */
+        /* --- 1. HERO WITH VIDEO BACKGROUND --- */
         .hero {
-            height: 90vh;
+            position: relative;
+            height: 100vh;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+            overflow: hidden;
         }
-        .hero-content h1 { font-size: clamp(3rem, 6vw, 5rem); line-height: 1; margin-bottom: 1rem; font-weight: 900; }
-        .hero-content p { color: var(--text-dim); font-size: 1.2rem; margin-bottom: 2rem; }
-        .btn { padding: 12px 30px; background: var(--accent); color: #000; font-weight: 700; border-radius: 4px; display: inline-block; }
-        .btn:hover { background: #fff; }
 
-        /* --- 2. MAIN AFTER EFFECTS FEATURE (THE BIG VIDEO) --- */
-        .feature-section { padding-top: 2rem; }
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Darkens video so text pops */
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 { font-size: clamp(3rem, 6vw, 5rem); line-height: 1; margin-bottom: 1rem; font-weight: 900; }
+        .hero-content p { color: #ddd; font-size: 1.2rem; margin-bottom: 2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+        /* --- 2. MAIN AFTER EFFECTS FEATURE --- */
+        .feature-section { padding-top: 5rem; }
         .main-video-wrapper {
             width: 100%;
             aspect-ratio: 16/9;
@@ -57,7 +85,7 @@
         }
         .main-video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
-        /* --- 3. REELS SECTION (3 CARDS) --- */
+        /* --- 3. REELS SECTION --- */
         .reels-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -72,7 +100,7 @@
         }
         .reel-card:hover { transform: translateY(-5px); border-color: var(--accent); }
         .reel-video {
-            aspect-ratio: 9/16; /* Vertical Aspect Ratio */
+            aspect-ratio: 9/16;
             background: #000;
             position: relative;
         }
@@ -81,15 +109,11 @@
         .reel-title { font-weight: 700; margin-bottom: 5px; }
         .reel-desc { font-size: 0.85rem; color: var(--text-dim); }
 
-        /* --- 4. GRAPHICS SECTION (MIXED GRID) --- */
+        /* --- 4. GRAPHICS SECTION --- */
         .graphics-container { display: flex; flex-direction: column; gap: 60px; }
         
         /* 1:1 Square Grid */
-        .grid-1x1 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
+        .grid-1x1 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .square-item {
             aspect-ratio: 1/1;
             background: #222;
@@ -106,11 +130,7 @@
         .square-item:hover { border-color: var(--accent); filter: brightness(1.2); }
 
         /* 16:9 Thumbnail Grid */
-        .grid-thumbnails {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
+        .grid-thumbnails { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .thumb-item {
             aspect-ratio: 16/9;
             background: #222;
@@ -126,10 +146,9 @@
         }
         .thumb-item:hover { border-color: var(--accent); transform: scale(1.02); }
 
-        /* Label styling for graphic sections */
         .grid-label { color: var(--text-dim); margin-bottom: 15px; font-size: 0.9rem; border-left: 2px solid var(--accent); padding-left: 10px; }
 
-        /* --- 5. CV / EXPERIENCE (COMPACT) --- */
+        /* --- 5. CV / EXPERIENCE --- */
         .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
         .cv-item { margin-bottom: 25px; padding-left: 15px; border-left: 1px solid #333; }
         .cv-role { font-weight: 700; color: #fff; }
@@ -150,6 +169,12 @@
 <body>
 
     <section class="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="header.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay"></div>
+        
         <div class="hero-content container">
             <span style="color:var(--accent); letter-spacing:2px; text-transform:uppercase; font-size:0.9rem;">Multimedia Designer</span>
             <h1>Abrar Mahir Antor</h1>
@@ -245,19 +270,16 @@
             <div class="cv-grid">
                 <div>
                     <h3 class="section-title" style="margin-bottom:2rem; font-size:1.5rem;">Experience</h3>
-                    
                     <div class="cv-item">
                         <span class="cv-date">2023 - Present</span>
                         <div class="cv-role">Senior Visualizer</div>
                         <div class="cv-company">Interactive Cares</div>
                     </div>
-
                     <div class="cv-item">
                         <span class="cv-date">2019</span>
                         <div class="cv-role">Graphic Designer</div>
                         <div class="cv-company">Admission.ac</div>
                     </div>
-
                     <div class="cv-item">
                         <span class="cv-date">2017 - 2018</span>
                         <div class="cv-role">Animator</div>
@@ -272,7 +294,6 @@
                         <div class="cv-role">B.Sc. (Hons) Multimedia</div>
                         <div class="cv-company">Daffodil International University</div>
                     </div>
-
                     <div style="margin-top: 3rem;">
                         <h3 class="section-title" style="margin-bottom:1.5rem; font-size:1.5rem;">Tools</h3>
                         <p style="color: var(--text-dim); line-height: 1.8;">
