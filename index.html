@@ -4,194 +4,296 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abrar Mahir Antor | Multimedia Designer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* --- CSS VARIABLES --- */
         :root {
-            --bg: #0a0a0a;
-            --surface: #141414;
-            --accent: #00f2ff; /* High-energy cyan */
+            --bg: #050505;
+            --surface: #121212;
+            --accent: #00f2ff; /* Cyan Accent */
             --text: #ffffff;
             --text-dim: #a0a0a0;
-            --transition: 0.3s ease;
+            --border: #222;
         }
 
+        /* --- GLOBAL RESET --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; transition: var(--transition); }
-        ul { list-style: none; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        /* --- UTILITIES --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        section { padding: 5rem 0; border-bottom: 1px solid #111; }
+        .section-header { margin-bottom: 3rem; text-align: left; }
+        .section-title { font-size: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .section-subtitle { color: var(--accent); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
 
-        /* 1. LANDING / HERO */
+        /* --- 1. HERO --- */
         .hero {
-            height: 100vh;
+            height: 90vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             text-align: center;
-            padding: 2rem;
-            background: radial-gradient(circle at center, #111 0%, #0a0a0a 100%);
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
         }
+        .hero-content h1 { font-size: clamp(3rem, 6vw, 5rem); line-height: 1; margin-bottom: 1rem; font-weight: 900; }
+        .hero-content p { color: var(--text-dim); font-size: 1.2rem; margin-bottom: 2rem; }
+        .btn { padding: 12px 30px; background: var(--accent); color: #000; font-weight: 700; border-radius: 4px; display: inline-block; }
+        .btn:hover { background: #fff; }
 
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1; margin-bottom: 0.5rem; }
-        .hero .subtitle { font-size: 1.2rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; }
-        .hero p { max-width: 600px; color: var(--text-dim); margin-bottom: 2rem; font-size: 1.1rem; }
-
-        .cta-group { display: flex; gap: 15px; }
-        .btn { padding: 12px 28px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; cursor: pointer; }
-        .btn-primary { background: var(--accent); color: #000; border: none; }
-        .btn-secondary { border: 1px solid var(--accent); color: var(--accent); background: transparent; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 242, 255, 0.2); }
-
-        /* 2. SHOWREEL */
-        .section-reel { padding: 4rem 2rem; max-width: 1000px; margin: 0 auto; }
-        .video-wrapper { 
-            position: relative; padding-bottom: 56.25%; height: 0; 
-            background: #000; border-radius: 12px; overflow: hidden; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        /* --- 2. MAIN AFTER EFFECTS FEATURE (THE BIG VIDEO) --- */
+        .feature-section { padding-top: 2rem; }
+        .main-video-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #333;
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.1);
+            position: relative;
         }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .main-video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        /* --- 3. REELS SECTION (3 CARDS) --- */
+        .reels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .reel-card {
+            background: var(--surface);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.3s;
+        }
+        .reel-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .reel-video {
+            aspect-ratio: 9/16; /* Vertical Aspect Ratio */
+            background: #000;
+            position: relative;
+        }
+        .reel-video iframe { position: absolute; top:0; left:0; width:100%; height:100%; }
+        .reel-info { padding: 1.5rem; }
+        .reel-title { font-weight: 700; margin-bottom: 5px; }
+        .reel-desc { font-size: 0.85rem; color: var(--text-dim); }
 
-        /* 3. PORTFOLIO GRID */
-        section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
-        .section-title { font-size: 2rem; margin-bottom: 3rem; text-align: center; }
-        .section-title span { color: var(--accent); }
+        /* --- 4. GRAPHICS SECTION (MIXED GRID) --- */
+        .graphics-container { display: flex; flex-direction: column; gap: 60px; }
+        
+        /* 1:1 Square Grid */
+        .grid-1x1 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .square-item {
+            aspect-ratio: 1/1;
+            background: #222;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-weight: bold;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+            overflow: hidden;
+        }
+        .square-item:hover { border-color: var(--accent); filter: brightness(1.2); }
 
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .project-card { background: var(--surface); border-radius: 8px; overflow: hidden; border: 1px solid #222; }
-        .project-thumb { width: 100%; height: 200px; background: #222; display: flex; align-items: center; justify-content: center; color: #444; }
-        .project-info { padding: 1.5rem; }
-        .project-info h4 { font-size: 1.25rem; margin-bottom: 5px; }
-        .project-tag { font-size: 0.75rem; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; display: block; }
-        .project-info p { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 15px; }
-        .tools { font-size: 0.8rem; color: #777; font-style: italic; }
+        /* 16:9 Thumbnail Grid */
+        .grid-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .thumb-item {
+            aspect-ratio: 16/9;
+            background: #222;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-weight: bold;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+            overflow: hidden;
+        }
+        .thumb-item:hover { border-color: var(--accent); transform: scale(1.02); }
 
-        /* 4. EXPERIENCE & EDUCATION (CV STYLE) */
-        .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
-        .cv-item { margin-bottom: 30px; position: relative; padding-left: 20px; border-left: 1px solid var(--accent); }
-        .cv-item h4 { font-size: 1.1rem; }
-        .cv-meta { font-size: 0.85rem; color: var(--accent); margin-bottom: 8px; }
-        .cv-item ul { margin-top: 10px; font-size: 0.9rem; color: var(--text-dim); }
-        .cv-item li { margin-bottom: 5px; }
+        /* Label styling for graphic sections */
+        .grid-label { color: var(--text-dim); margin-bottom: 15px; font-size: 0.9rem; border-left: 2px solid var(--accent); padding-left: 10px; }
 
-        /* 5. SKILLS & AWARDS */
-        .skills-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
-        .skill-tag { background: #1a1a1a; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; border: 1px solid #333; }
-        .award-item { background: #1a1a1a; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid gold; }
+        /* --- 5. CV / EXPERIENCE (COMPACT) --- */
+        .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .cv-item { margin-bottom: 25px; padding-left: 15px; border-left: 1px solid #333; }
+        .cv-role { font-weight: 700; color: #fff; }
+        .cv-company { color: var(--accent); font-size: 0.9rem; }
+        .cv-date { font-size: 0.8rem; color: #666; margin-bottom: 5px; display: block; }
+        
+        /* --- FOOTER --- */
+        footer { text-align: center; padding: 4rem 0; border-top: 1px solid var(--border); margin-top: 4rem; }
+        .contact-links a { color: var(--accent); margin: 0 10px; font-weight: bold; }
 
-        /* FOOTER */
-        footer { text-align: center; padding: 4rem 2rem; border-top: 1px solid #222; }
-        .contact-links { margin: 2rem 0; font-size: 1.2rem; display: flex; justify-content: center; gap: 30px; }
-
+        /* --- MOBILE --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .cv-grid { grid-template-columns: 1fr; }
+            .grid-1x1, .grid-thumbnails, .reels-grid, .cv-grid { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="hero">
-        <p class="subtitle">Multimedia Designer</p>
-        <h1>Abrar Mahir Antor</h1>
-        <p>Creating high-impact visuals with After Effects & Premiere Pro. Specializing in visual storytelling and motion graphics.</p>
-        <div class="cta-group">
-            <a href="#portfolio" class="btn btn-primary">View Portfolio</a>
-            <a href="abrar_cv.pdf" class="btn btn-secondary">Download CV</a>
+    <section class="hero">
+        <div class="hero-content container">
+            <span style="color:var(--accent); letter-spacing:2px; text-transform:uppercase; font-size:0.9rem;">Multimedia Designer</span>
+            <h1>Abrar Mahir Antor</h1>
+            <p>Motion Graphics • Visual Storytelling • Brand Design</p>
+            <a href="#contact" class="btn">Download CV</a>
         </div>
-    </div>
-
-    <div class="section-reel">
-        <h2 class="section-title">2026 <span>Showreel</span></h2>
-        <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
-        </div>
-    </div>
-
-    <section id="portfolio">
-        <h2 class="section-title">Selected <span>Works</span></h2>
-        <div class="portfolio-grid">
-            <div class="project-card">
-                <div class="project-thumb">Video/Image Here</div>
-                <div class="project-info">
-                    <span class="project-tag">Motion Graphics</span>
-                    <h4>Brand Promo 2026</h4>
-                    <p>High-energy social media promo created for digital campaigns.</p>
-                    <div class="tools">After Effects, Illustrator</div>
-                </div>
-            </div>
-            </div>
     </section>
 
-    <section id="cv" style="background: var(--surface);">
-        <div class="cv-grid">
-            <div>
-                <h3 class="section-title" style="text-align: left;">Experience</h3>
-                <div class="cv-item">
-                    <div class="cv-meta">2023 – Present</div>
-                    <h4>Senior Visualizer</h4>
-                    <p style="color:var(--accent)">Interactive Cares</p>
-                    <ul>
-                        <li>Motion graphics for brand & social content</li>
-                        <li>Video editing using Premiere Pro & AE</li>
-                        <li>Collaboration with creative team</li>
-                    </ul>
-                </div>
-                <div class="cv-item">
-                    <div class="cv-meta">2019</div>
-                    <h4>Graphic Designer</h4>
-                    <p style="color:var(--accent)">Admission.ac</p>
-                </div>
-                <div class="cv-item">
-                    <div class="cv-meta">2017 – 2018</div>
-                    <h4>Animator</h4>
-                    <p style="color:var(--accent)">Studio PADMA</p>
-                </div>
+    <section class="feature-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Featured Project</span>
+                <h2 class="section-title">Motion Graphics Spotlight</h2>
+                <p style="color:var(--text-dim); margin-top:10px; max-width:600px;">
+                    A deep dive into complex compositing, typography animation, and visual effects using After Effects.
+                </p>
             </div>
-            
-            <div>
-                <h3 class="section-title" style="text-align: left;">Education</h3>
-                <div class="cv-item">
-                    <h4>B.Sc. (Hons.) in Multimedia & Creative Technology</h4>
-                    <p>Daffodil International University</p>
-                </div>
+            <div class="main-video-wrapper">
+                <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
 
-                <h3 class="section-title" style="text-align: left; margin-top: 2rem;">Awards</h3>
-                <div class="award-item">
-                    <strong>Employee of the Month</strong> — Interactive Cares
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Short Form</span>
+                <h2 class="section-title">Selected Reels</h2>
+            </div>
+            <div class="reels-grid">
+                <div class="reel-card">
+                    <div class="reel-video">
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+                    </div>
+                    <div class="reel-info">
+                        <h3 class="reel-title">Brand Teaser</h3>
+                        <p class="reel-desc">High-pace editing for social campaign.</p>
+                    </div>
                 </div>
-                <div class="award-item">
-                    <strong>Best Intern</strong> — Studio PADMA
+                <div class="reel-card">
+                    <div class="reel-video">
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+                    </div>
+                    <div class="reel-info">
+                        <h3 class="reel-title">Event Promo</h3>
+                        <p class="reel-desc">Kinetic typography and transitions.</p>
+                    </div>
+                </div>
+                <div class="reel-card">
+                    <div class="reel-video">
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+                    </div>
+                    <div class="reel-info">
+                        <h3 class="reel-title">Product Highlight</h3>
+                        <p class="reel-desc">3D integration and motion tracking.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <section>
-        <h2 class="section-title">Technical <span>Expertise</span></h2>
-        <div class="skills-wrap">
-            <span class="skill-tag">Adobe After Effects</span>
-            <span class="skill-tag">Adobe Premiere Pro</span>
-            <span class="skill-tag">Motion Graphics</span>
-            <span class="skill-tag">Video Editing</span>
-            <span class="skill-tag">Visual Storytelling</span>
-            <span class="skill-tag">Sound Sync</span>
-            <span class="skill-tag">Color Grading</span>
-            <span class="skill-tag">Typography Animation</span>
-            <span class="skill-tag">Graphic Design</span>
-            <span class="skill-tag">Branding Visuals</span>
-            <span class="skill-tag">AI-assisted Workflow</span>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Visual Design</span>
+                <h2 class="section-title">Graphic Showcase</h2>
+            </div>
+            
+            <div class="graphics-container">
+                <div>
+                    <div class="grid-label">Social Media & Brand Identity (1:1)</div>
+                    <div class="grid-1x1">
+                        <div class="square-item">Square Design 01</div>
+                        <div class="square-item">Square Design 02</div>
+                        <div class="square-item">Square Design 03</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="grid-label">Thumbnails & Web Banners (16:9)</div>
+                    <div class="grid-thumbnails">
+                        <div class="thumb-item">Thumbnail 01</div>
+                        <div class="thumb-item">Thumbnail 02</div>
+                        <div class="thumb-item">Thumbnail 03</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: #0a0a0a;">
+        <div class="container">
+            <div class="cv-grid">
+                <div>
+                    <h3 class="section-title" style="margin-bottom:2rem; font-size:1.5rem;">Experience</h3>
+                    
+                    <div class="cv-item">
+                        <span class="cv-date">2023 - Present</span>
+                        <div class="cv-role">Senior Visualizer</div>
+                        <div class="cv-company">Interactive Cares</div>
+                    </div>
+
+                    <div class="cv-item">
+                        <span class="cv-date">2019</span>
+                        <div class="cv-role">Graphic Designer</div>
+                        <div class="cv-company">Admission.ac</div>
+                    </div>
+
+                    <div class="cv-item">
+                        <span class="cv-date">2017 - 2018</span>
+                        <div class="cv-role">Animator</div>
+                        <div class="cv-company">Studio PADMA</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="section-title" style="margin-bottom:2rem; font-size:1.5rem;">Education</h3>
+                    <div class="cv-item">
+                        <span class="cv-date">2017 - 2023</span>
+                        <div class="cv-role">B.Sc. (Hons) Multimedia</div>
+                        <div class="cv-company">Daffodil International University</div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h3 class="section-title" style="margin-bottom:1.5rem; font-size:1.5rem;">Tools</h3>
+                        <p style="color: var(--text-dim); line-height: 1.8;">
+                            <span style="color:#fff;">Adobe After Effects, Premiere Pro</span>, Illustrator, Photoshop, AI Workflow (ChatGPT, Gemini), Visual Storytelling.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <footer id="contact">
-        <h2>Let's create something <span>impactful</span>.</h2>
-        <div class="contact-links">
-            <a href="mailto:abrarmahirantor@gmail.com">Email</a>
-            <a href="tel:+8801986609698">Phone</a>
-            <a href="https://wa.me/8801986609698">WhatsApp</a>
+        <div class="container">
+            <h2>Ready to work together?</h2>
+            <div class="contact-links" style="margin-top:20px;">
+                <a href="mailto:abrarmahirantor@gmail.com">abrarmahirantor@gmail.com</a>
+                <span style="color:#333;">|</span>
+                <a href="tel:+8801986609698">+880 1986 609 698</a>
+            </div>
+            <p style="margin-top:30px; font-size:0.8rem; color:#444;">&copy; 2026 Abrar Mahir Antor</p>
         </div>
-        <a href="abrar_cv.pdf" class="btn btn-primary">Download One-Page CV</a>
-        <p style="margin-top: 3rem; font-size: 0.8rem; color: #444;">&copy; 2026 Abrar Mahir Antor | Built for Netlify</p>
     </footer>
 
 </body>
