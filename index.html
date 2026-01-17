@@ -17,14 +17,49 @@
         }
 
         /* --- GLOBAL RESET --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide Default Cursor */ }
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+        a, button, .btn { cursor: none; /* Ensure links don't show default cursor */ }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         img { width: 100%; height: 100%; object-fit: cover; display: block; }
         ul { list-style: none; }
         
-        /* --- LOADER STYLES (NEW) --- */
+        /* --- CUSTOM CURSOR STYLES --- */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none; /* Allows clicking through */
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            /* This transition creates the "Drag/Lag" effect */
+            transition: width 0.2s, height 0.2s, background-color 0.2s, transform 0.1s ease-out; 
+        }
+
+        /* Hover State for Cursor */
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 242, 255, 0.1);
+            border-color: var(--accent);
+        }
+
+        /* --- LOADER --- */
         #loader {
             position: fixed;
             top: 0;
@@ -32,7 +67,7 @@
             width: 100%;
             height: 100%;
             background: var(--bg);
-            z-index: 9999; /* Stays on top of everything */
+            z-index: 9998; /* Below cursor, above content */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -46,20 +81,13 @@
             border: 3px solid var(--accent);
             object-fit: cover;
             box-shadow: 0 0 40px rgba(0, 242, 255, 0.4);
-            animation: float 3s ease-in-out infinite; /* Floating animation */
+            animation: float 3s ease-in-out infinite;
         }
-
-        /* Floating Animation Keyframes */
+        .loader-hidden { opacity: 0; pointer-events: none; }
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
             100% { transform: translateY(0px); }
-        }
-
-        /* Class to hide loader */
-        .loader-hidden {
-            opacity: 0;
-            pointer-events: none;
         }
 
         /* --- UTILITIES --- */
@@ -69,7 +97,6 @@
         .section-title { font-size: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .section-subtitle { color: var(--accent); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
         
-        /* Button Style */
         .btn { 
             padding: 14px 35px; 
             background: var(--accent); 
@@ -77,7 +104,6 @@
             font-weight: 700; 
             border-radius: 4px; 
             display: inline-block; 
-            cursor: pointer; 
             text-transform: uppercase;
             font-size: 0.9rem;
             letter-spacing: 1px;
@@ -88,6 +114,7 @@
         .reveal {
             opacity: 0;
             transform: translateY(50px);
+            /* Transition handles the fade in AND fade out */
             transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
         .reveal.active {
@@ -131,18 +158,11 @@
             z-index: -1;
         }
 
+        /* We apply .reveal to hero items now so they animate on scroll too */
         .hero-content {
             position: relative;
             z-index: 1;
             padding: 0 20px;
-            animation: fadeUp 1s ease-out forwards;
-            animation-delay: 0.5s; /* Wait for loader to finish slightly */
-            opacity: 0;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .profile-img {
@@ -170,12 +190,9 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            opacity: 0; 
-            cursor: pointer;
-            animation: fadeIn 2s ease-out 1.5s forwards;
+            opacity: 0.8; 
+            transition: 0.3s;
         }
-        @keyframes fadeIn { to { opacity: 0.8; } }
-        
         .scroll-indicator:hover { opacity: 1; }
 
         .mouse {
@@ -219,7 +236,7 @@
             100% { opacity: 0; transform: rotate(45deg) translate(5px, 5px); }
         }
 
-        /* --- 2. MAIN FEATURE --- */
+        /* --- SECTIONS (Styles from previous steps) --- */
         .main-video-wrapper {
             width: 100%;
             aspect-ratio: 16/9;
@@ -232,78 +249,31 @@
         }
         .main-video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
-        /* --- 3. REELS SECTION --- */
-        .reels-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        .reel-card {
-            background: var(--surface);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            transition: transform 0.3s, border-color 0.3s;
-        }
+        .reels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .reel-card { background: var(--surface); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); transition: transform 0.3s, border-color 0.3s; }
         .reel-card:hover { transform: translateY(-7px); border-color: var(--accent); }
-        .reel-video {
-            aspect-ratio: 9/16;
-            background: #000;
-            position: relative;
-        }
+        .reel-video { aspect-ratio: 9/16; background: #000; position: relative; }
         .reel-video iframe { position: absolute; top:0; left:0; width:100%; height:100%; }
         .reel-info { padding: 1.5rem; }
         .reel-title { font-weight: 700; margin-bottom: 5px; color: #fff; }
         .reel-desc { font-size: 0.85rem; color: var(--text-dim); }
 
-        /* --- 4. GRAPHICS SECTION --- */
         .graphics-container { display: flex; flex-direction: column; gap: 60px; }
-        
         .grid-1x1 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .square-item {
-            aspect-ratio: 1/1;
-            background: #222;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #555;
-            font-weight: bold;
-            border: 1px solid var(--border);
-            transition: 0.3s;
-            overflow: hidden;
-            position: relative;
-        }
+        .square-item { aspect-ratio: 1/1; background: #222; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #555; font-weight: bold; border: 1px solid var(--border); transition: 0.3s; overflow: hidden; position: relative; }
         .square-item:hover { border-color: var(--accent); filter: brightness(1.2); }
-
         .grid-thumbnails { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .thumb-item {
-            aspect-ratio: 16/9;
-            background: #222;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #555;
-            font-weight: bold;
-            border: 1px solid var(--border);
-            transition: 0.3s;
-            overflow: hidden;
-        }
+        .thumb-item { aspect-ratio: 16/9; background: #222; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #555; font-weight: bold; border: 1px solid var(--border); transition: 0.3s; overflow: hidden; }
         .thumb-item:hover { border-color: var(--accent); transform: scale(1.02); }
-
         .grid-label { color: var(--text-dim); margin-bottom: 20px; font-size: 0.95rem; border-left: 3px solid var(--accent); padding-left: 15px; font-weight: bold; }
 
-        /* --- 5. CV / EXPERIENCE --- */
         .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
         .cv-item { margin-bottom: 30px; padding-left: 20px; border-left: 1px solid #333; position: relative; }
         .cv-item::before { content: ''; position: absolute; left: -3px; top: 0; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; }
-        
         .cv-role { font-weight: 700; color: #fff; font-size: 1.1rem; }
         .cv-company { color: var(--accent); font-size: 0.95rem; margin-bottom: 5px; }
         .cv-date { font-size: 0.8rem; color: #666; display: block; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
         
-        /* --- FOOTER --- */
         footer { text-align: center; padding: 5rem 0; border-top: 1px solid var(--border); background: #080808; }
         .footer-cta h2 { font-size: 2.5rem; margin-bottom: 2rem; }
         .footer-cta span { color: var(--accent); }
@@ -315,16 +285,20 @@
 
         /* --- MOBILE --- */
         @media (max-width: 768px) {
+            * { cursor: auto; } /* Restore cursor on touch */
+            .cursor-dot, .cursor-outline { display: none; } /* Hide custom cursor */
             .grid-1x1, .grid-thumbnails, .reels-grid, .cv-grid { grid-template-columns: 1fr; }
             .hero-content h1 { font-size: 3rem; }
             .section-header { text-align: center; }
-            .section-subtitle { margin-bottom: 10px; }
             .contact-links { flex-direction: column; gap: 15px; }
             .profile-img { width: 120px; height: 120px; }
         }
     </style>
 </head>
 <body>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
 
     <div id="loader">
         <img src="profile.jpg" alt="Loading..." class="loader-img">
@@ -337,14 +311,18 @@
         <div class="hero-overlay"></div>
         
         <div class="hero-content container">
-            <img src="profile.jpg" alt="Abrar Mahir Antor" class="profile-img">
-            <span style="color:var(--accent); letter-spacing:3px; text-transform:uppercase; font-size:0.85rem; font-weight:bold;">Multimedia Designer</span>
-            <h1>Abrar Mahir Antor</h1>
-            <p>High-impact visuals. Strategic motion graphics. Future-ready brand design.</p>
-            <a href="abrar_cv.pdf" class="btn">Download CV</a>
+            <div class="reveal">
+                <img src="profile.jpg" alt="Abrar Mahir Antor" class="profile-img">
+            </div>
+            <div class="reveal delay-100">
+                <span style="color:var(--accent); letter-spacing:3px; text-transform:uppercase; font-size:0.85rem; font-weight:bold;">Multimedia Designer</span>
+                <h1>Abrar Mahir Antor</h1>
+                <p>High-impact visuals. Strategic motion graphics. Future-ready brand design.</p>
+                <a href="abrar_cv.pdf" class="btn">Download CV</a>
+            </div>
         </div>
 
-        <a href="#feature-section" class="scroll-indicator">
+        <a href="#feature-section" class="scroll-indicator reveal delay-300">
             <div class="mouse">
                 <div class="wheel"></div>
             </div>
@@ -487,34 +465,61 @@
     </footer>
 
     <script>
-        // 1. Loading Screen Logic
+        // 1. Loading Screen
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
-            
-            // Wait small amount to ensure smooth float animation shows
             setTimeout(() => {
                 loader.classList.add('loader-hidden');
-                
-                // Remove loader from DOM after transition
                 loader.addEventListener('transitionend', () => {
-                    if (loader.parentNode) {
-                        loader.parentNode.removeChild(loader);
-                    }
+                    if (loader.parentNode) loader.parentNode.removeChild(loader);
                 });
-            }, 800); // Loader visible for at least 0.8 seconds
+            }, 800);
         });
 
-        // 2. Scroll Animation Logic
+        // 2. Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with slight delay (handled by CSS transition)
+            // We use JS just to set the position
+            cursorOutline.style.left = `${posX}px`;
+            cursorOutline.style.top = `${posY}px`;
+        });
+
+        // Cursor Hover Effect
+        const interactiveElements = document.querySelectorAll('a, button, .btn');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovering');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovering');
+            });
+        });
+
+        // 3. Scroll Animation (Re-triggerable "Whenever Up or Down")
         document.addEventListener('DOMContentLoaded', () => {
             const observerOptions = {
-                threshold: 0.15 // Trigger when 15% is visible
+                threshold: 0.1, // Trigger when 10% is visible
+                rootMargin: "0px 0px -50px 0px" // Offset slightly from bottom
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
+                        // When scrolling INTO view
                         entry.target.classList.add('active');
-                        observer.unobserve(entry.target);
+                    } else {
+                        // When scrolling OUT of view (Reset animation)
+                        entry.target.classList.remove('active');
                     }
                 });
             }, observerOptions);
