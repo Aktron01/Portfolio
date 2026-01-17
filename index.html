@@ -20,7 +20,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide Default Cursor */ }
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.6; }
-        a, button, .btn { cursor: none; /* Ensure links don't show default cursor */ }
+        
+        /* Ensure links don't show default cursor */
+        a, button, .btn, .reel-card, .square-item, .thumb-item { cursor: none; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         img { width: 100%; height: 100%; object-fit: cover; display: block; }
         ul { list-style: none; }
@@ -34,7 +36,7 @@
             transform: translate(-50%, -50%);
             border-radius: 50%;
             z-index: 9999;
-            pointer-events: none; /* Allows clicking through */
+            pointer-events: none;
         }
 
         .cursor-dot {
@@ -47,7 +49,6 @@
             width: 40px;
             height: 40px;
             border: 1px solid rgba(255, 255, 255, 0.5);
-            /* This transition creates the "Drag/Lag" effect */
             transition: width 0.2s, height 0.2s, background-color 0.2s, transform 0.1s ease-out; 
         }
 
@@ -67,7 +68,7 @@
             width: 100%;
             height: 100%;
             background: var(--bg);
-            z-index: 9998; /* Below cursor, above content */
+            z-index: 9998;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -114,7 +115,6 @@
         .reveal {
             opacity: 0;
             transform: translateY(50px);
-            /* Transition handles the fade in AND fade out */
             transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
         .reveal.active {
@@ -158,7 +158,6 @@
             z-index: -1;
         }
 
-        /* We apply .reveal to hero items now so they animate on scroll too */
         .hero-content {
             position: relative;
             z-index: 1;
@@ -296,6 +295,9 @@
     </style>
 </head>
 <body>
+
+    <audio id="audio-hover" src="hover.mp3"></audio>
+    <audio id="audio-click" src="click.mp3"></audio>
 
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
@@ -488,28 +490,52 @@
             cursorDot.style.left = `${posX}px`;
             cursorDot.style.top = `${posY}px`;
 
-            // Outline follows with slight delay (handled by CSS transition)
-            // We use JS just to set the position
+            // Outline follows with slight delay
             cursorOutline.style.left = `${posX}px`;
             cursorOutline.style.top = `${posY}px`;
         });
 
-        // Cursor Hover Effect
-        const interactiveElements = document.querySelectorAll('a, button, .btn');
+        // 3. Sound Engine & Hover Effects
+        const hoverSound = document.getElementById('audio-hover');
+        const clickSound = document.getElementById('audio-click');
+        
+        // Set volume to be subtle
+        if(hoverSound) hoverSound.volume = 0.2;
+        if(clickSound) clickSound.volume = 0.4;
+
+        // Select all interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .btn, .reel-card, .square-item, .thumb-item');
+
         interactiveElements.forEach(el => {
+            // Mouse Enter (Hover)
             el.addEventListener('mouseenter', () => {
                 document.body.classList.add('hovering');
+                // Play Sound
+                if(hoverSound) {
+                    hoverSound.currentTime = 0; // Reset sound to start
+                    hoverSound.play().catch(e => {}); // Catch error if browser blocks auto-audio
+                }
             });
+
+            // Mouse Leave
             el.addEventListener('mouseleave', () => {
                 document.body.classList.remove('hovering');
             });
+
+            // Click
+            el.addEventListener('click', () => {
+                if(clickSound) {
+                    clickSound.currentTime = 0;
+                    clickSound.play().catch(e => {});
+                }
+            });
         });
 
-        // 3. Scroll Animation (Re-triggerable "Whenever Up or Down")
+        // 4. Scroll Animation (Re-triggerable "Whenever Up or Down")
         document.addEventListener('DOMContentLoaded', () => {
             const observerOptions = {
                 threshold: 0.1, // Trigger when 10% is visible
-                rootMargin: "0px 0px -50px 0px" // Offset slightly from bottom
+                rootMargin: "0px 0px -50px 0px"
             };
 
             const observer = new IntersectionObserver((entries) => {
