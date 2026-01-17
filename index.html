@@ -24,6 +24,44 @@
         img { width: 100%; height: 100%; object-fit: cover; display: block; }
         ul { list-style: none; }
         
+        /* --- LOADER STYLES (NEW) --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 9999; /* Stays on top of everything */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-out;
+        }
+
+        .loader-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            object-fit: cover;
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.4);
+            animation: float 3s ease-in-out infinite; /* Floating animation */
+        }
+
+        /* Floating Animation Keyframes */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Class to hide loader */
+        .loader-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         /* --- UTILITIES --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
         section { padding: 6rem 0; border-bottom: 1px solid #111; }
@@ -46,19 +84,16 @@
         }
         .btn:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2); }
 
-        /* --- ANIMATION CLASSES (NEW) --- */
+        /* --- ANIMATION CLASSES --- */
         .reveal {
             opacity: 0;
-            transform: translateY(50px); /* Start 50px lower */
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); /* Smooth easing */
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
-
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
-
-        /* Stagger delays for grids */
         .delay-100 { transition-delay: 0.1s; }
         .delay-200 { transition-delay: 0.2s; }
         .delay-300 { transition-delay: 0.3s; }
@@ -100,8 +135,9 @@
             position: relative;
             z-index: 1;
             padding: 0 20px;
-            /* Hero animation happens on load, handled by separate keyframes or JS */
             animation: fadeUp 1s ease-out forwards;
+            animation-delay: 0.5s; /* Wait for loader to finish slightly */
+            opacity: 0;
         }
 
         @keyframes fadeUp {
@@ -134,10 +170,9 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            opacity: 0.8;
-            cursor: pointer;
-            animation: fadeIn 2s ease-out 1s forwards; /* Delayed fade in */
             opacity: 0; 
+            cursor: pointer;
+            animation: fadeIn 2s ease-out 1.5s forwards;
         }
         @keyframes fadeIn { to { opacity: 0.8; } }
         
@@ -291,6 +326,10 @@
 </head>
 <body>
 
+    <div id="loader">
+        <img src="profile.jpg" alt="Loading..." class="loader-img">
+    </div>
+
     <section class="hero">
         <video autoplay muted loop playsinline class="hero-video">
             <source src="header.mp4" type="video/mp4">
@@ -400,19 +439,16 @@
             <div class="cv-grid">
                 <div class="reveal">
                     <h3 class="section-title" style="margin-bottom:2.5rem; font-size:1.5rem;">Experience</h3>
-                    
                     <div class="cv-item">
                         <span class="cv-date">2023 - Present</span>
                         <div class="cv-role">Senior Visualizer</div>
                         <div class="cv-company">Interactive Cares</div>
                     </div>
-
                     <div class="cv-item">
                         <span class="cv-date">2019</span>
                         <div class="cv-role">Graphic Designer</div>
                         <div class="cv-company">Admission.ac</div>
                     </div>
-
                     <div class="cv-item">
                         <span class="cv-date">2017 - 2018</span>
                         <div class="cv-role">Animator</div>
@@ -427,7 +463,6 @@
                         <div class="cv-role">B.Sc. (Hons) Multimedia</div>
                         <div class="cv-company">Daffodil International University</div>
                     </div>
-
                     <div style="margin-top: 4rem;">
                         <h3 class="section-title" style="margin-bottom:1.5rem; font-size:1.5rem;">Tools</h3>
                         <p style="color: var(--text-dim); line-height: 1.8;">
@@ -452,22 +487,38 @@
     </footer>
 
     <script>
+        // 1. Loading Screen Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            
+            // Wait small amount to ensure smooth float animation shows
+            setTimeout(() => {
+                loader.classList.add('loader-hidden');
+                
+                // Remove loader from DOM after transition
+                loader.addEventListener('transitionend', () => {
+                    if (loader.parentNode) {
+                        loader.parentNode.removeChild(loader);
+                    }
+                });
+            }, 800); // Loader visible for at least 0.8 seconds
+        });
+
+        // 2. Scroll Animation Logic
         document.addEventListener('DOMContentLoaded', () => {
             const observerOptions = {
-                threshold: 0.15 // Trigger when 15% of element is visible
+                threshold: 0.15 // Trigger when 15% is visible
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // Stop observing once animated so it doesn't run again
                         observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
 
-            // Select all elements with the .reveal class
             const revealElements = document.querySelectorAll('.reveal');
             revealElements.forEach(el => observer.observe(el));
         });
